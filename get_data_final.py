@@ -78,7 +78,7 @@ def preprocess_data(data):
                 year_count_medimum[item[0]] = 0
             if item[0] in item:
                 year_count_medimum[item[0]] += 1
-    # print(year_count)
+    print(year_count)
     return processed_data, year_count
 
 
@@ -101,6 +101,7 @@ def generate_year_count_json_file(data):
             year_count = data[language].items()
             year_count = list(year_count)
             year_count.sort(key=lambda x: x[0])
+            year_count.pop()
             year_count_dict[language] = year_count
         f.write(json.dumps(year_count_dict) + '\n')
 

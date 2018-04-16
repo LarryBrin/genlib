@@ -9,8 +9,15 @@
 		</style>
 	</head>
 	<body>
-
-		<p>Click on this text to update the chart with new data values (once).</p>
+		<p>以 <em>java</em> 在2002年的最大出版量 <i>120</i> 册为统计标准进行比对， </p>
+    <p>统计图表与以下编程语言的颜色相匹配：</p>
+		<ul>
+			<li><b style="color:teal">Python</b></li>
+			<li><b style="color:orange">javascript</b></li>
+			<li><b style="color:red">java</b></li>
+			<li><b style="color:green">php</b></li>
+			<li><b style="color:black">ruby</b></li>
+		</ul>
 
 		<script type="text/javascript">
 
@@ -18,108 +25,453 @@
 			var w = 600;
 			var h = 250;
 
-			var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
 
-			var xScale = d3.scaleBand()
-							.domain(d3.range(dataset.length))
-							.rangeRound([0, w])
-							.paddingInner(0.05);
+      dataset = d3.json("year_count.json", function(json) {
+				var language = "python";
 
-			var yScale = d3.scaleLinear()
-							.domain([0, d3.max(dataset)])
-							.range([0, h]);
+				var ordinalDomain = []
+			  for (var i = 0; i < json[language].length; i++) {
+			 	 ordinalDomain.push(json[language][i][0])
+			  };
 
-			//Create SVG element
-			var svg = d3.select("body")
-						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
+				console.log(ordinalDomain)
+				var svg = d3.select("body")
+							.append("svg")
+							.attr("width", w)
+							.attr("height", h);
 
-			//Create bars
+				var xScale = d3.scaleBand()
+								.domain(d3.range(json[language].length))
+								.rangeRound([0, w])
+								.paddingInner(0.05);
+
+				var yScale = d3.scaleLinear()
+								.domain([0, 120])
+								.range([0, h]);
+
+
 			svg.selectAll("rect")
-			   .data(dataset)
+			   .data(json[language])
 			   .enter()
 			   .append("rect")
 			   .attr("x", function(d, i) {
 			   		return xScale(i);
 			   })
 			   .attr("y", function(d) {
-			   		return h - yScale(d);
+			   		return h - yScale(d[1]);
 			   })
 			   .attr("width", xScale.bandwidth())
 			   .attr("height", function(d) {
-			   		return yScale(d);
+			   		return yScale(d[1]);
 			   })
 			   .attr("fill", function(d) {
 					return "rgb(0, 0, " + Math.round(d * 10) + ")";
-			   });
+			   })
+				 .attr("fill", "teal");
 
-			//Create labels
 			svg.selectAll("text")
-			   .data(dataset)
-			   .enter()
-			   .append("text")
-			   .text(function(d) {
-			   		return d;
-			   })
-			   .attr("text-anchor", "middle")
-			   .attr("x", function(d, i) {
-			   		return xScale(i) + xScale.bandwidth() / 2;
-			   })
-			   .attr("y", function(d) {
-			   		return h - yScale(d) + 14;
-			   })
-			   .attr("font-family", "sans-serif")
-			   .attr("font-size", "11px")
-			   .attr("fill", "white");
+				.data(json[language])
+				.enter()
+				.append("text")
+				.text(function(d) {
+					 return d[0];
+				})
+				.attr("text-anchor", "middle")
+				.attr("x", function(d, i) {
+					 return xScale(i) + xScale.bandwidth() / 2;
+				})
+				.attr("y", function(d) {
+					 return h - yScale(d[1]) + 14;
+				})
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "11px")
+				.attr("fill", "white");
+
+				// d3.selectAll("p")
+				// 	.on("click", language = function() {
+				//
+				// 		//See which p was clicked
+				// 		var paragraphID = d3.select(this).attr("id");
+				//
+				// 		//Decide what to do next
+				// 		if (paragraphID == "python") {
+				// 			 return "python";
+				// 		} else if (paragraphID == "php") {
+				// 			 return "php";
+				// 		} else if (paragraphID == "javascript") {
+				// 			 return "javascript";
+				// 		} else if (paragraphID == "java") {
+				// 			 return "java";
+				// 		} else {
+				// 			 return "ruby";
+				// 		}});
+
+					console.log(language)
+
+			})
+		</script>
+		<script type="text/javascript">
+		//Width and height
+		var w = 600;
+		var h = 250;
 
 
+		dataset = d3.json("year_count.json", function(json) {
+			var language = "javascript";
+
+			var ordinalDomain = []
+			for (var i = 0; i < json[language].length; i++) {
+			 ordinalDomain.push(json[language][i][0])
+			};
+
+			console.log(ordinalDomain)
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			var xScale = d3.scaleBand()
+							.domain(d3.range(json[language].length))
+							.rangeRound([0, w])
+							.paddingInner(0.05);
+
+			var yScale = d3.scaleLinear()
+							.domain([0, 120])
+							.range([0, h]);
 
 
-			//On click, update with new data
-			d3.select("p")
-				.on("click", function() {
+		svg.selectAll("rect")
+			 .data(json[language])
+			 .enter()
+			 .append("rect")
+			 .attr("x", function(d, i) {
+					return xScale(i);
+			 })
+			 .attr("y", function(d) {
+					return h - yScale(d[1]);
+			 })
+			 .attr("width", xScale.bandwidth())
+			 .attr("height", function(d) {
+					return yScale(d[1]);
+			 })
+			 .attr("fill", function(d) {
+				return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			 })
+			 .attr("fill", "orange");
 
-					//New values for dataset
-					dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25,
-								5, 10, 13, 19, 21, 25, 22, 18, 15, 13 ];
+		svg.selectAll("text")
+			.data(json[language])
+			.enter()
+			.append("text")
+			.text(function(d) {
+				 return d[0];
+			})
+			.attr("text-anchor", "middle")
+			.attr("x", function(d, i) {
+				 return xScale(i) + xScale.bandwidth() / 2;
+			})
+			.attr("y", function(d) {
+				 return h - yScale(d[1]) + 14;
+			})
+			.attr("font-family", "sans-serif")
+			.attr("font-size", "11px")
+			.attr("fill", "white");
 
-					//Update all rects
-					svg.selectAll("rect")
-					   .data(dataset)
-					   .transition()
-					   .duration(2000)
-					   .ease(d3.easeLinear)
-					   .attr("y", function(d) {
-					   		return h - yScale(d);
-					   })
-					   .attr("height", function(d) {
-					   		return yScale(d);
-					   })
-					   .attr("fill", function(d) {
-							return "rgb(0, 0, " + Math.round(d * 10) + ")";
-					   });
+			// d3.selectAll("p")
+			// 	.on("click", language = function() {
+			//
+			// 		//See which p was clicked
+			// 		var paragraphID = d3.select(this).attr("id");
+			//
+			// 		//Decide what to do next
+			// 		if (paragraphID == "python") {
+			// 			 return "python";
+			// 		} else if (paragraphID == "php") {
+			// 			 return "php";
+			// 		} else if (paragraphID == "javascript") {
+			// 			 return "javascript";
+			// 		} else if (paragraphID == "java") {
+			// 			 return "java";
+			// 		} else {
+			// 			 return "ruby";
+			// 		}});
 
-					//Update all labels
-					svg.selectAll("text")
-					   .data(dataset)
-					   .transition()
-					   .duration(2000)
-					   .ease(d3.easeLinear)
-					   .text(function(d) {
-					   		return d;
-					   })
-					   .attr("x", function(d, i) {
-					   		return xScale(i) + xScale.bandwidth() / 2;
-					   })
-					   .attr("y", function(d) {
-					   		return h - yScale(d) + 14;
-					   });
+				console.log(language)
 
-				});
+		})
+		</script>
+
+		<script type="text/javascript">
+		//Width and height
+		var w = 600;
+		var h = 250;
 
 
+		dataset = d3.json("year_count.json", function(json) {
+			var language = "java";
+
+			var ordinalDomain = []
+			for (var i = 0; i < json[language].length; i++) {
+			 ordinalDomain.push(json[language][i][0])
+			};
+
+			console.log(ordinalDomain)
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			var xScale = d3.scaleBand()
+							.domain(d3.range(json[language].length))
+							.rangeRound([0, w])
+							.paddingInner(0.05);
+
+			var yScale = d3.scaleLinear()
+							.domain([0, 120])
+							.range([0, h]);
+
+
+		svg.selectAll("rect")
+			 .data(json[language])
+			 .enter()
+			 .append("rect")
+			 .attr("x", function(d, i) {
+					return xScale(i);
+			 })
+			 .attr("y", function(d) {
+					return h - yScale(d[1]);
+			 })
+			 .attr("width", xScale.bandwidth())
+			 .attr("height", function(d) {
+					return yScale(d[1]);
+			 })
+			 .attr("fill", function(d) {
+				return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			 })
+			 .attr("fill", "red");
+
+		svg.selectAll("text")
+			.data(json[language])
+			.enter()
+			.append("text")
+			.text(function(d) {
+				 return d[0];
+			})
+			.attr("text-anchor", "middle")
+			.attr("x", function(d, i) {
+				 return xScale(i) + xScale.bandwidth() / 2;
+			})
+			.attr("y", function(d) {
+				 return h - yScale(d[1]) + 14;
+			})
+			.attr("font-family", "sans-serif")
+			.attr("font-size", "11px")
+			.attr("fill", "white");
+
+			// d3.selectAll("p")
+			// 	.on("click", language = function() {
+			//
+			// 		//See which p was clicked
+			// 		var paragraphID = d3.select(this).attr("id");
+			//
+			// 		//Decide what to do next
+			// 		if (paragraphID == "python") {
+			// 			 return "python";
+			// 		} else if (paragraphID == "php") {
+			// 			 return "php";
+			// 		} else if (paragraphID == "javascript") {
+			// 			 return "javascript";
+			// 		} else if (paragraphID == "java") {
+			// 			 return "java";
+			// 		} else {
+			// 			 return "ruby";
+			// 		}});
+
+				console.log(language)
+
+		})
+		</script>
+
+		<script type="text/javascript">
+		//Width and height
+		var w = 600;
+		var h = 250;
+
+
+		dataset = d3.json("year_count.json", function(json) {
+			var language = "php";
+
+			var ordinalDomain = []
+			for (var i = 0; i < json[language].length; i++) {
+			 ordinalDomain.push(json[language][i][0])
+			};
+
+			console.log(ordinalDomain)
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			var xScale = d3.scaleBand()
+							.domain(d3.range(json[language].length))
+							.rangeRound([0, w])
+							.paddingInner(0.05);
+
+			var yScale = d3.scaleLinear()
+							.domain([0, 120])
+							.range([0, h]);
+
+
+		svg.selectAll("rect")
+			 .data(json[language])
+			 .enter()
+			 .append("rect")
+			 .attr("x", function(d, i) {
+					return xScale(i);
+			 })
+			 .attr("y", function(d) {
+					return h - yScale(d[1]);
+			 })
+			 .attr("width", xScale.bandwidth())
+			 .attr("height", function(d) {
+					return yScale(d[1]);
+			 })
+			 .attr("fill", function(d) {
+				return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			 })
+			 .attr("fill", "green");
+
+		svg.selectAll("text")
+			.data(json[language])
+			.enter()
+			.append("text")
+			.text(function(d) {
+				 return d[0];
+			})
+			.attr("text-anchor", "middle")
+			.attr("x", function(d, i) {
+				 return xScale(i) + xScale.bandwidth() / 2;
+			})
+			.attr("y", function(d) {
+				 return h - yScale(d[1]) + 14;
+			})
+			.attr("font-family", "sans-serif")
+			.attr("font-size", "11px")
+			.attr("fill", "white");
+
+			// d3.selectAll("p")
+			// 	.on("click", language = function() {
+			//
+			// 		//See which p was clicked
+			// 		var paragraphID = d3.select(this).attr("id");
+			//
+			// 		//Decide what to do next
+			// 		if (paragraphID == "python") {
+			// 			 return "python";
+			// 		} else if (paragraphID == "php") {
+			// 			 return "php";
+			// 		} else if (paragraphID == "javascript") {
+			// 			 return "javascript";
+			// 		} else if (paragraphID == "java") {
+			// 			 return "java";
+			// 		} else {
+			// 			 return "ruby";
+			// 		}});
+
+				console.log(language)
+
+		})
+		</script>
+
+		<script type="text/javascript">
+		//Width and height
+		var w = 600;
+		var h = 250;
+
+
+		dataset = d3.json("year_count.json", function(json) {
+			var language = "ruby";
+
+			var ordinalDomain = []
+			for (var i = 0; i < json[language].length; i++) {
+			 ordinalDomain.push(json[language][i][0])
+			};
+
+			console.log(ordinalDomain)
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			var xScale = d3.scaleBand()
+							.domain(d3.range(json[language].length))
+							.rangeRound([0, w])
+							.paddingInner(0.05);
+
+			var yScale = d3.scaleLinear()
+							.domain([0, 120])
+							.range([0, h]);
+
+
+		svg.selectAll("rect")
+			 .data(json[language])
+			 .enter()
+			 .append("rect")
+			 .attr("x", function(d, i) {
+					return xScale(i);
+			 })
+			 .attr("y", function(d) {
+					return h - yScale(d[1]);
+			 })
+			 .attr("width", xScale.bandwidth())
+			 .attr("height", function(d) {
+					return yScale(d[1]);
+			 })
+			 .attr("fill", function(d) {
+				return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			 })
+			 .attr("fill", "black");
+
+		svg.selectAll("text")
+			.data(json[language])
+			.enter()
+			.append("text")
+			.text(function(d) {
+				 return d[0];
+			})
+			.attr("text-anchor", "middle")
+			.attr("x", function(d, i) {
+				 return xScale(i) + xScale.bandwidth() / 2;
+			})
+			.attr("y", function(d) {
+				 return h - yScale(d[1]) + 14;
+			})
+			.attr("font-family", "sans-serif")
+			.attr("font-size", "11px")
+			.attr("fill", "white");
+
+			// d3.selectAll("p")
+			// 	.on("click", language = function() {
+			//
+			// 		//See which p was clicked
+			// 		var paragraphID = d3.select(this).attr("id");
+			//
+			// 		//Decide what to do next
+			// 		if (paragraphID == "python") {
+			// 			 return "python";
+			// 		} else if (paragraphID == "php") {
+			// 			 return "php";
+			// 		} else if (paragraphID == "javascript") {
+			// 			 return "javascript";
+			// 		} else if (paragraphID == "java") {
+			// 			 return "java";
+			// 		} else {
+			// 			 return "ruby";
+			// 		}});
+
+				console.log(language)
+
+		})
 		</script>
 	</body>
 </html>
