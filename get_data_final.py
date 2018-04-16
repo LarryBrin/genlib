@@ -101,6 +101,8 @@ def generate_year_count_json_file(data):
             year_count = data[language].items()
             year_count = list(year_count)
             year_count.sort(key=lambda x: x[0])
+            # 因本脚本处理的数据是过去搜集的，搜集数据的方式存在纰漏
+            # 导致搜集到的最近年份的数据不充分，所以需要去除
             year_count.pop()
             year_count_dict[language] = year_count
         f.write(json.dumps(year_count_dict) + '\n')
