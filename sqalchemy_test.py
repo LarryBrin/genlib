@@ -60,10 +60,14 @@ for result in results:
 s = select([users.c.username])
 connection.execute(s).fetchall()
 
+from sqlalchemy.exc import IntegrityError
 ins = insert(users).values(
         username='cookiemon',
         email_address='damon@cookie.com',
         phone='111-111-1111',
         password='password')
 
-result = connection.execute(ins)
+try:
+    result = connection.execute(ins)
+except IntegrityError as error:
+    print(error.orig.message)

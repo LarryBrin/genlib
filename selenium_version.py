@@ -72,7 +72,7 @@ def get_book_items(root, language):
     one_language_competed = False
     book_items = []
     items = root.xpath('//table[3]//tr[position()>1]')
-    i = 1
+    # i = 1
     for item in items:
         if item.xpath('./td[3]/a/text()[1]'):
             title = item.xpath('./td[3]/a/text()[1]')[0]

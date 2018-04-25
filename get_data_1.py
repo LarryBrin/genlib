@@ -6,7 +6,8 @@ from sqlalchemy.sql import select
 
 engine = create_engine('sqlite:///genlib.db')
 conn = engine.connect()
-metadate = MetaData(engine, reflect=True)
+metadate = MetaData(engine)
+metadate.reflect()
 table = metadate.tables['Book_infos']
 LANGUAGES = ['python', 'php', 'javascript', 'java', 'ruby']
 # if not use encoding, the write() method will be failed.

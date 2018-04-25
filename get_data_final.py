@@ -7,7 +7,8 @@ LANGUAGES = ['python', 'php', 'javascript', 'java', 'ruby']
 
 engine = create_engine('sqlite:///genlib.db')
 connection = engine.connect()
-metadata = MetaData(engine, reflect=True)
+metadata = MetaData(engine)
+metadata.reflect()
 book_infos_table = metadata.tables['Book_infos']
 
 
